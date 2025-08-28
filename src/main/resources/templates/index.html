@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaVerse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/general.css">
+    <link rel="stylesheet" href="/styles/index.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a class="navbar-logo" href="#">
+            <span class="logo-icon">⚡</span> MangaVerse
+        </a>
+        <div class="navbar-menu">
+            <ul class="navbar-links">
+                <li><a href="#section-popular">Populares</a></li>
+                <li><a href="#section-releases">Lanzamientos</a></li>
+                <li><a href="#section-ranking">Ranking Top</a></li>
+                <li><a href="#about-us">Sobre Nosotros</a></li>
+            </ul>
+            <div class="navbar-buttons">
+                <button class="btn-login">Iniciar Sesión</button>
+                <button class="btn-register">Registrarse</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO CARRUSEL (Bootstrap) -->
+    <div id="carouselExampleCaptions" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://media.gq.com.mx/photos/66b3e2ab1eb4176c241add84/16:9/w_2560%2Cc_limit/Mejores_series_de_anime.jpg"
+                    class="d-block w-100" alt="manga1">
+                <div class="carousel-caption custom-caption left-caption">
+                    <h5>¡Sumérgete en el mundo del manga!</h5>
+                    <p>Descubre historias increíbles y vive la emoción del anime en nuestra plataforma.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://cdn.wallpapersafari.com/9/81/yaqGvs.jpg"
+                    class="d-block w-100" alt="manga2">
+                <div class="carousel-caption custom-caption center-caption">
+                    <h5>Anime y manga al alcance de un clic</h5>
+                    <p>Únete a nuestra comunidad y explora en un solo lugar.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://static1.colliderimages.com/wordpress/wp-content/uploads/2022/08/Jujutsu-Kaisen.jpg"
+                    class="d-block w-100" alt="manga3">
+                <div class="carousel-caption custom-caption right-caption">
+                    <h5>Explora, lee y disfruta</h5>
+                    <p>Tenemos todo lo que necesitas para que vivas tu pasión por el manga.</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Mangas Populares -->
+    <section class="section-popular" id="section-popular">
+        <div class="section-header">
+            <h3 class="section-title">Popular Mangas</h3>
+        </div>
+        <div class="carousel-wrapper">
+            <button class="scroll-btn scroll-left" id="popularPrev" aria-label="Previous popular">‹</button>
+            <div id="popularRow" class="scroll-row">
+                <!-- Dynamic cards from JS -->
+            </div>
+            <button class="scroll-btn scroll-right" id="popularNext" aria-label="Next popular">›</button>
+        </div>
+    </section>
+
+    <!-- Últimos Lanzamientos -->
+    <section class="section-popular" id="section-releases">
+        <div class="section-header">
+            <h3 class="section-title">Últimos Lanzamientos</h3>
+        </div>
+
+        <div class="carousel-wrapper">
+            <button class="scroll-btn scroll-left" id="latestPrev" aria-label="Previous releases">‹</button>
+            <div id="latestRow" class="scroll-row">
+            </div>
+            <button class="scroll-btn scroll-right" id="latestNext" aria-label="Next releases">›</button>
+        </div>
+    </section>
+
+    <!-- Sobre Nosotros -->
+    <section class="about-section" id="about-us">
+        <div class="about-container">
+            <div class="about-image-wrapper animate-on-scroll" id="aboutImageWrapper">
+                <img id="aboutImage" src="img/manga-removebg-preview.png" alt="Anime" />
+            </div>
+            <div class="about-text-wrapper">
+                <h4 class="about-title">Sobre Nosotros</h4>
+                <p class="about-paragraph">
+                    Descubre <strong>MangaVerse</strong>, tu universo de anime y manga
+                    En MangaVerse creemos que cada historia merece ser vivida y compartida. Nuestra plataforma nació
+                    para unir a los fans del anime y manga en un solo lugar, donde la pasión por las historias japonesas
+                    cobre vida.
+                </p>
+                <p class="about-paragraph">
+                    Aquí encontrarás lo mejor del mundo del manga: información actualizada, los títulos más populares,
+                    últimos lanzamientos y rankings para que nunca te pierdas lo que está en tendencia.
+                </p>
+                <p class="about-welcome-message">
+                    ¡Bienvenido a<strong>MangaVerse</strong>,donde cada historia es un nuevo mundo por descubrir!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ranking Top -->
+    <section class="ranking-section" id="section-ranking">
+        <h3 class="ranking-title">Ranking Top</h3>
+        <div class="ranking-container">
+            <!-- Top Animes -->
+            <div class="ranking-box">
+                <h5 class="ranking-subtitle">Top 5 Animes</h5>
+                <ul id="topAnimes" class="ranking-list"></ul>
+            </div>
+            <!-- Top Mangas -->
+            <div class="ranking-box">
+                <h5 class="ranking-subtitle">Top 5 Mangas</h5>
+                <ul id="topMangas" class="ranking-list"></ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ¡Disfrutemos juntos ... -->
+    <section class="hero-section">
+        <div class="hero-image-left scroll-animate" id="heroImageLeft">
+            <img src="/img/manga2-removebg-preview.png" alt="Lado izquierdo">
+        </div>
+
+        <div class="hero-text scroll-animate" id="heroText">
+            <h2 class="hero-title">¡Disfrutemos juntos de las aventuras de los nuevos héroes en MangaVerse!</h2>
+            <p class="hero-subtitle">Acompáñanos en cada capítulo — descubre, comparte y vibra con las mejores
+                historias.</p>
+        </div>
+
+        <div class="hero-image-right scroll-animate" id="heroImageRight">
+            <img src="/img/manga3-removebg-preview.png" alt="Lado derecho">
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-text">
+                © <span id="year"></span> MangaVerse. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/js/index.js"></script>
+</body>
+
+</html>

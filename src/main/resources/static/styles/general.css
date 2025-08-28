@@ -1,0 +1,217 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --cr-bg: #222222;
+    --cl-fond:#000000;
+    --cr-accent: #F47521;
+    --cr-secondary-btn: #FF9800;
+    --cr-text-primary: #FFFFFF;
+    --cr-text-muted: #D3D3D3;
+    --card-radius: 14px;
+}
+
+html,
+body {
+    height: 100%
+}
+
+/* barra de navegacion  */
+.navbar {
+    width: 100%;
+    background-color: var(--cr-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.navbar-logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--cr-text-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+    color: var(--cr-accent);
+    animation: pulseIcon 1.5s infinite ease-in-out;
+}
+
+/* Animación del ícono */
+@keyframes pulseIcon {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.navbar-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.navbar-links li a {
+    text-decoration: none;
+    color: var(--cr-text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+/* Hover con subrayado animado */
+.navbar-links li a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--cr-accent);
+    left: 0;
+    bottom: -4px;
+    transition: width 0.3s ease;
+}
+
+.navbar-links li a:hover {
+    color: var(--cr-accent);
+}
+
+.navbar-links li a:hover::after {
+    width: 100%;
+}
+
+.navbar-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-login,
+.btn-register {
+    padding: 8px 18px;
+    border-radius: var(--card-radius);
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-login {
+    background: transparent;
+    color: var(--cr-text-primary);
+    border: 2px solid var(--cr-accent);
+}
+
+.btn-login:hover {
+    background: var(--cr-accent);
+    color: #000;
+    transform: scale(1.05);
+}
+
+.btn-register {
+    background: var(--cr-accent);
+    color: #000;
+    font-weight: 500;
+}
+
+.btn-register:hover {
+    background: var(--cr-secondary-btn);
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar-menu {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+
+/* footer */
+
+.footer {
+    background-color: var(--cr-bg);
+    padding: 20px 0;
+    text-align: center;
+    color: var(--cr-text-muted);
+    font-size: 0.95rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Contenedor central */
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Texto */
+.footer-text {
+    color: var(--cr-text-primary);
+    letter-spacing: 0.5px;
+    font-weight: 400;
+    position: relative;
+    z-index: 2;
+}
+
+/* Línea superior animada */
+.footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cr-accent), var(--cr-secondary-btn));
+    animation: slideLine 4s linear infinite;
+}
+
+/* Animación de línea */
+@keyframes slideLine {
+    0% {
+        left: -100%;
+    }
+
+    50% {
+        left: 0;
+    }
+
+    100% {
+        left: 100%;
+    }
+}

@@ -1,0 +1,202 @@
+:root {
+    --cr-bg: #222222;
+    --cl-fond: #000000;
+    --cr-accent: #F47521;
+    --cr-secondary-btn: #FF9800;
+    --cr-text-primary: #FFFFFF;
+    --cr-text-muted: #D3D3D3;
+    --card-radius: 14px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--cr-text-primary);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.9) 100%),
+        url('https://uvn-brightspot.s3.amazonaws.com/assets/vixes/b/bleach_manga.jpg') center/cover no-repeat;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    height: 80vh;
+    border-radius: var(--card-radius);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+}
+
+.form-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    background: rgba(34, 34, 34, 0.85);
+    animation: slideIn 1s ease forwards;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--cr-accent);
+    text-align: center;
+}
+
+.subtitle {
+    color: var(--cr-text-muted);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.subtitle span {
+    color: var(--cr-accent);
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input {
+    padding: 12px;
+    border-radius: var(--card-radius);
+    border: none;
+    background: #333;
+    color: var(--cr-text-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    background: #444;
+    box-shadow: 0 0 10px var(--cr-accent);
+}
+
+.btn-primary {
+    background: var(--cr-accent);
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: var(--card-radius);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--cr-secondary-btn);
+    transform: scale(1.05);
+}
+
+.info {
+    margin-top: 10px;
+    color: var(--cr-text-muted);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.login-link {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.login-link a {
+    color: var(--cr-accent);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+.image-container {
+    flex: 1;
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: zoomEffect 8s infinite alternate ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-50%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomEffect {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+
+    50% {
+        transform: scale(1.1) translate(-10px, -10px);
+    }
+
+    100% {
+        transform: scale(1) translate(0, 0);
+    }
+}
+
+/* login */
+.form-title {
+    font-size: 1.8rem;
+    text-align: center;
+    margin: 15px 0;
+    color: var(--cr-text-primary);
+}
+
+.form-subtext {
+    color: var(--cr-text-muted);
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1rem;
+}
+
+.extra-links {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.extra-links a {
+    color: var(--cr-text-muted);
+    text-decoration: none;
+    margin: 0 8px;
+}
+
+.extra-links a span {
+    color: var(--cr-accent);
+    font-weight: bold;
+}
+
+.extra-links a:hover {
+    text-decoration: underline;
+}
