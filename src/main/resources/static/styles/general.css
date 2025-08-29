@@ -19,6 +19,11 @@ body {
     height: 100%
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* barra de navegacion  */
 .navbar {
     width: 100%;
@@ -214,4 +219,86 @@ body {
     100% {
         left: 100%;
     }
+}
+
+
+/* Personaliza el borde del SweetAlert */
+.border-red {
+  border: 2px solid rgb(100, 0, 0) !important;
+  box-shadow: 0 0 15px rgba(100, 0, 0, 0.3) !important;
+  border-radius: 10px !important;
+  background: white !important;
+  max-width: 500px !important;
+}
+
+.icon-swal {
+  color: rgb(100, 0, 0) !important;
+}
+
+.title-swal {
+  color: #000 !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+  margin-bottom: 10px !important;
+  display: block !important;
+}
+
+/* Contenido del mensaje */
+.div-swal {
+  text-align: center !important;
+  color: black !important;
+  font-size: 20px !important;
+  line-height: 1.5 !important;
+  padding: 0 20px !important;
+}
+
+.btn-red {
+  background-color: rgb(155, 20, 20) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 5px !important;
+  padding: 10px 30px !important;
+  font-weight: bold !important;
+  transition: all 0.3s !important;
+  margin-top: 20px !important;
+  font-size: 16px !important;
+  cursor: pointer;
+}
+
+.btn-red:hover {
+  background-color: rgb(179, 2, 2) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* alert success */
+.border-green {
+  border: 2px solid rgb(0, 100, 0) !important;
+  box-shadow: 0 0 15px rgba(0, 100, 0, 0.3) !important;
+  border-radius: 10px !important;
+  background: white !important;
+  max-width: 500px !important;
+}
+
+.icon-swal-green {
+  color: rgb(0, 100, 0) !important;
+}
+
+.btn-green {
+  background-color: rgb(20, 155, 20) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 5px !important;
+  padding: 10px 30px !important;
+  font-weight: bold !important;
+  transition: all 0.3s !important;
+  margin-top: 20px !important;
+  font-size: 16px !important;
+  cursor: pointer;
+}
+
+.btn-green:hover {
+  background-color: rgb(2, 179, 2) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
 }

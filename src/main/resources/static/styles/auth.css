@@ -6,6 +6,10 @@
     --cr-text-primary: #FFFFFF;
     --cr-text-muted: #D3D3D3;
     --card-radius: 14px;
+    --primary: #F47521;
+    --primary-light: #FF9800;
+    --error-color: #dc3545;
+    --success-color: #28a745;
 }
 
 * {
@@ -13,6 +17,11 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
 body {
@@ -26,7 +35,6 @@ body {
     background-attachment: fixed;
     overflow: hidden;
 }
-
 
 .container {
     display: flex;
@@ -73,10 +81,17 @@ form {
     gap: 15px;
 }
 
+/* Estilos para grupos de formulario */
+.form-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
 input {
+    width: 100%;
     padding: 12px;
     border-radius: var(--card-radius);
-    border: none;
+    border: 2px solid #444;
     background: #333;
     color: var(--cr-text-primary);
     font-size: 1rem;
@@ -86,7 +101,75 @@ input {
 
 input:focus {
     background: #444;
-    box-shadow: 0 0 10px var(--cr-accent);
+    border-color: var(--cr-accent);
+    box-shadow: 0 0 10px rgba(244, 117, 33, 0.3);
+}
+
+input.is-invalid {
+    border-color: var(--error-color);
+    box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+}
+
+/* Estilos para campos de contraseña */
+.password-group {
+    position: relative;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+/* Agrega esto a tu CSS - REEMPLAZA la sección de eye-btn */
+.eye-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: var(--cr-text-muted);
+    transition: all 0.3s ease;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.eye-btn:hover {
+    color: var(--cr-accent);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.eye-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* Asegura que los campos de contraseña tengan espacio */
+#password,
+#confirmPassword {
+    padding-right: 50px !important;
+}
+
+/* Estilos para los iconos de ojo */
+.eye-open,
+.eye-closed {
+    transition: opacity 0.3s ease;
+}
+
+.eye-closed {
+    display: none;
+}
+
+#password,
+#confirmPassword {
+    padding-right: 50px;
 }
 
 .btn-primary {
@@ -98,6 +181,7 @@ input:focus {
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.3s ease;
+    margin-top: 10px;
 }
 
 .btn-primary:hover {
@@ -113,7 +197,7 @@ input:focus {
 }
 
 .login-link {
-    margin-top: 10px;
+    margin-top: 20px;
     text-align: center;
 }
 
@@ -139,30 +223,78 @@ input:focus {
     animation: zoomEffect 8s infinite alternate ease-in-out;
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateX(-50%);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+/* Mensajes de error y éxito */
+.error {
+    color: var(--error-color);
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    border-radius: 4px;
 }
 
-@keyframes zoomEffect {
-    0% {
-        transform: scale(1) translate(0, 0);
-    }
+.success {
+    color: var(--success-color);
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background-color: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    border-radius: 4px;
+}
 
-    50% {
-        transform: scale(1.1) translate(-10px, -10px);
-    }
+.error-message {
+    display: block;
+    color: var(--error-color);
+    font-size: 12px;
+    margin-top: 8px;
+    font-weight: 500;
+    padding: 6px 10px;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-radius: 4px;
+    border-left: 3px solid var(--error-color);
+    position: relative;
+    width: 100%;
+    transition: all 0.3s ease;
+    min-height: 0; 
+}
 
-    100% {
-        transform: scale(1) translate(0, 0);
-    }
+.error-message:empty {
+    display: none;
+    opacity: 0;
+    height: 0;
+    margin-top: 0;
+    padding: 0;
+}
+
+.has-error {
+    background-color: rgba(151, 18, 3, 0.2);
+    color: #fff;
+    border-radius: 5px;
+    padding: 8px 12px;
+}
+
+.error-message-container {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--error-color);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.success-message-container {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success-color);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
 /* login */
@@ -199,4 +331,111 @@ input:focus {
 
 .extra-links a:hover {
     text-decoration: underline;
+}
+
+/* Animaciones */
+@keyframes slideIn {
+    from {
+        transform: translateX(-50%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomEffect {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+
+    50% {
+        transform: scale(1.1) translate(-10px, -10px);
+    }
+
+    100% {
+        transform: scale(1) translate(0, 0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+        margin: 20px;
+    }
+
+    .form-container {
+        padding: 30px 20px;
+    }
+
+    .image-container {
+        display: none;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Estilos para SweetAlert personalizados */
+.swal2-popup {
+    background: rgba(34, 34, 34, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--cr-accent) !important;
+    border-radius: var(--card-radius) !important;
+    color: var(--cr-text-primary) !important;
+}
+
+.swal2-title {
+    color: var(--cr-text-primary) !important;
+    font-weight: 600 !important;
+}
+
+.swal2-html-container {
+    color: var(--cr-text-muted) !important;
+}
+
+.btn-red {
+    background-color: var(--error-color) !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    border-radius: var(--card-radius) !important;
+    font-weight: 500 !important;
+}
+
+.btn-green {
+    background-color: var(--success-color) !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    border-radius: var(--card-radius) !important;
+    font-weight: 500 !important;
+}
+
+.border-red {
+    border: 2px solid var(--error-color) !important;
+}
+
+.border-green {
+    border: 2px solid var(--success-color) !important;
+}
+
+.title-swal {
+    color: var(--cr-text-primary) !important;
+    font-weight: 600 !important;
+}
+
+.div-swal {
+    color: var(--cr-text-muted) !important;
+}
+
+.icon-swal {
+    color: var(--error-color) !important;
+}
+
+.icon-swal-green {
+    color: var(--success-color) !important;
 }

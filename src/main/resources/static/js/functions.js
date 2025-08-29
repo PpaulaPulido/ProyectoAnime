@@ -151,3 +151,4 @@ export function setupAnimations() {
     // tambien observar los elementos que contienen la img en .sobre-img-wrapper
     document.querySelectorAll('.sobre-img-wrapper').forEach(n => io.observe(n));
 }
+

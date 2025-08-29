@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MangaVerse</title>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>Bienvenido al Dashboard, <span class="username" th:text="${username}">Usuario</span>!</h1>
+            <a th:href="@{/auth/logout}" class="logout-btn">Cerrar Sesión</a>
+        </header>
+
+        <main>
+            <div class="welcome-message">
+                <h2>¡Explora el universo de MangaVerse!</h2>
+                <p>Aquí podrás gestionar tu perfil, favoritos y mucho más.</p>
+                <p>Próximamente: Catálogo de mangas, listas de anime, y comunidad.</p>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
