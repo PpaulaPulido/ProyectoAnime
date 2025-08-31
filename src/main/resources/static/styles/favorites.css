@@ -1,0 +1,283 @@
+:root {
+    --cr-bg: #222222;
+    --cl-fond: #000000;
+    --cr-accent: #F47521;
+    --cr-secondary-btn: #FF9800;
+    --cr-text-primary: #FFFFFF;
+    --cr-text-muted: #D3D3D3;
+    --card-radius: 14px;
+    --primary: #F47521;
+    --primary-light: #FF9800;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+
+    --sidebar-width: 260px;
+    --transition-speed: 0.28s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 2rem;
+    min-height: 100vh;
+    background-image:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 35%, rgba(0, 0, 0, 0.95) 100%),
+        url('https://uvn-brightspot.s3.amazonaws.com/assets/vixes/b/bleach_manga.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    backdrop-filter: blur(8px);
+}
+
+/* Encabezado de Favoritos */
+.favorites-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.favorites-header h1 {
+    font-size: 2rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.favorites-header .text-muted {
+    color: var(--cr-text-muted);
+    font-size: 1rem;
+    margin-top: 0.4rem;
+}
+
+/* Estado vacío */
+.empty-state {
+    text-align: center;
+    margin-top: 5rem;
+    color: var(--cr-text-muted);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state .btn-primary {
+    display: inline-block;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    color: #fff;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.empty-state .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(244, 117, 33, 0.3);
+}
+
+/* Grid de Favoritos */
+.favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.6rem;
+}
+
+/* Tarjeta */
+.favorite-item {
+    background: rgba(34, 34, 34, 0.9);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+}
+
+.favorite-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(244, 117, 33, 0.25);
+}
+
+/* Imagen */
+.favorite-image {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.favorite-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.favorite-item:hover img {
+    transform: scale(1.08);
+}
+
+/* Botón eliminar */
+.favorite-overlay {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.favorite-item:hover .favorite-overlay {
+    opacity: 1;
+}
+
+.btn-remove-favorite {
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 50%;
+    padding: 0.6rem;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1.3rem;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.btn-remove-favorite:hover {
+    background: var(--error-color);
+    transform: scale(1.1);
+}
+
+/* Información */
+.favorite-info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.favorite-info h5 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--cr-text-primary);
+}
+
+.favorite-meta {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--cr-text-muted);
+}
+
+.favorite-meta .badge {
+    background: var(--primary);
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    text-transform: capitalize;
+}
+
+.favorite-meta .rating i {
+    color: gold;
+}
+
+/* Botón Ver Detalles */
+.btn-view-details {
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-view-details:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(244, 117, 33, 0.25);
+}
+
+/* estilos cuando no hay favoritos */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--card-radius);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    color: var(--cr-text-primary);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    color: var(--cr-text-muted);
+    margin-bottom: 1.2rem;
+}
+
+.empty-state .btn-primary {
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(244, 117, 33, 0.18);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.empty-state .btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(244, 117, 33, 0.25);
+}
+
+/* Animación para suavizar la aparición */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

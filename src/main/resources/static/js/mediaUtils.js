@@ -1,5 +1,79 @@
 // ===== FUNCIONES DE FAVORITOS =====
-export function toggleFavorite(button) {
+export async function toggleFavorite(button) {
+    const icon = button.querySelector('i');
+    const id = button.dataset.id;
+    const type = button.dataset.type;
+    const title = button.closest('.card').querySelector('h4').title;
+    const img = button.closest('.card').querySelector('img').src;
+    const score = button.closest('.card').querySelector('.rating span').textContent;
+    const year = button.closest('.card').querySelector('.year')?.textContent || '0';
+
+    try {
+        const response = await fetch('/user/favorites/toggle', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contentId: id,
+                contentType: type,
+                title: title,
+                imageUrl: img,
+                score: parseFloat(score) || 0,
+                year: parseInt(year) || 0
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Actualizar UI
+            if (result.isFavorite) {
+                button.classList.add('favorited');
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                showNotification('Agregado a favoritos', 'success');
+            } else {
+                button.classList.remove('favorited');
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                showNotification('Eliminado de favoritos', 'info');
+            }
+
+            // Sincronizar con localStorage
+            syncWithLocalStorage(id, type, result.isFavorite);
+        } else {
+            showNotification('Error al procesar', 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification('Error de conexión', 'error');
+        // Fallback a localStorage
+        toggleLocalFavorite(button);
+    }
+}
+
+function syncWithLocalStorage(contentId, contentType, isFavorite) {
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+    if (isFavorite) {
+        // Agregar si no existe
+        if (!favorites.some(f => f.id == contentId && f.type == contentType)) {
+            favorites.push({
+                id: contentId,
+                type: contentType,
+                addedAt: new Date().toISOString()
+            });
+        }
+    } else {
+        // Eliminar si existe
+        favorites = favorites.filter(f => !(f.id == contentId && f.type == contentType));
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+}
+
+function toggleLocalFavorite(button) {
     const icon = button.querySelector('i');
     const id = button.dataset.id;
     const type = button.dataset.type;
@@ -13,14 +87,27 @@ export function toggleFavorite(button) {
         button.classList.add('favorited');
         icon.classList.remove('far');
         icon.classList.add('fas');
-        showNotification('Agregado a favoritos', 'success');
+        showNotification('Agregado a favoritos (local)', 'success');
     } else {
         const filtered = favorites.filter(f => !(f.id == id && f.type == type));
         localStorage.setItem('favorites', JSON.stringify(filtered));
         button.classList.remove('favorited');
         icon.classList.remove('fas');
         icon.classList.add('far');
-        showNotification('Eliminado de favoritos', 'info');
+        showNotification('Eliminado de favoritos (local)', 'info');
+    }
+}
+
+export async function checkFavoriteStatus(contentId, contentType) {
+    try {
+        const response = await fetch(`/user/favorites/check?contentId=${contentId}&contentType=${contentType}`);
+        const result = await response.json();
+        return result.isFavorite;
+    } catch (error) {
+        console.error('Error checking favorite:', error);
+        // Fallback a localStorage
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        return favorites.some(f => f.id == contentId && f.type == contentType);
     }
 }
 
@@ -73,7 +160,7 @@ export function showNotification(msg, type = 'success', duration = 2000) {
 }
 
 // ===== FUNCIONES DE TARJETAS =====
-export function createMediaCard(media, type) {
+export async function createMediaCard(media, type) {
     const card = document.createElement('div');
     card.className = 'card';
     card.setAttribute('role', 'listitem');
@@ -105,8 +192,9 @@ export function createMediaCard(media, type) {
         </div>
     `;
 
-    // Si ya es favorito, marcarlo
-    if (isFavorite(card.dataset.id, type)) {
+    // Verificar si es favorito (usando el nuevo sistema)
+    const isFav = await checkFavoriteStatus(card.dataset.id, type);
+    if (isFav) {
         const heartIcon = card.querySelector('.btn-favorite i');
         heartIcon.classList.remove('far');
         heartIcon.classList.add('fas');
@@ -116,10 +204,19 @@ export function createMediaCard(media, type) {
     return card;
 }
 
-export function renderCarouselItems(list, container, type) {
+export async function renderCarouselItems(list, container, type) {
     container.innerHTML = '';
-    list.forEach(item => {
-        const card = createMediaCard(item, type);
+    
+    // Crear todas las tarjetas de forma asíncrona
+    const cardPromises = list.map(async (media) => {
+        return await createMediaCard(media, type);
+    });
+    
+    // Esperar a que todas las tarjetas se creen
+    const cards = await Promise.all(cardPromises);
+    
+    // Añadir todas las tarjetas al container
+    cards.forEach(card => {
         container.appendChild(card);
     });
 }
@@ -222,6 +319,7 @@ export function animateElement(element, animationType = 'fadeIn') {
 export default {
     // Favoritos
     toggleFavorite,
+    checkFavoriteStatus,
     getFavorites,
     isFavorite,
     removeFavorite,

@@ -4,7 +4,8 @@ import {
     initScrollAnimations,
     makeScrollable,
     setupAnimations,
-    showAlert
+    showAlert,
+    checkLoginStatus
 } from './functions.js';
 import {
     createMediaCard,
@@ -29,59 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupCarouselInteractions();
 });
 
-//Verificar estado de login
-function checkLoginStatus() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const loginSuccess = urlParams.get('loginSuccess');
-    const logoutSuccess = urlParams.get('logout');
-
-    if (loginSuccess === 'true') {
-        showAlert({
-            icon: 'success',
-            title: '¡Sesión Iniciada!',
-            html: 'Has iniciado sesión correctamente. ¡Bienvenido de nuevo!',
-            draggable: true
-        }).then(() => {
-            // Limpiar el parámetro de la URL sin recargar
-            const cleanUrl = window.location.pathname;
-            window.history.replaceState({}, document.title, cleanUrl);
-        });
-    }
-
-    if (logoutSuccess === 'true') {
-        showAlert({
-            icon: 'info',
-            title: 'Sesión Cerrada',
-            html: 'Has cerrado sesión correctamente. ¡Hasta pronto!',
-            draggable: true
-        }).then(() => {
-            // Limpiar el parámetro de la URL
-            const cleanUrl = window.location.pathname;
-            window.history.replaceState({}, document.title, cleanUrl);
-        });
-    }
-
-    // Configurar logout para el enlace (no botón)
-    const logoutLink = document.getElementById('logoutBtn');
-    if (logoutLink) {
-        logoutLink.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevenir la navegación normal
-
-            showAlert({
-                icon: 'question',
-                title: 'Cerrar sesión',
-                html: '¿Estás seguro de que quieres cerrar sesión?',
-                draggable: true,
-                confirmButtonText: 'Sí, cerrar sesión'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Redirigir al logout de Spring Security
-                    window.location.href = '/auth/logout';
-                }
-            });
-        });
-    }
-}
 
 // Configurar animaciones al hacer scroll
 function setupScrollAnimations() {
@@ -235,14 +183,14 @@ async function loadTrendingAnime() {
         container.innerHTML = '<div class="loading">Cargando animes...</div>';
         const list = await getTrendingAnime(10);
         if (list && list.length) {
-            renderCarouselItems(list, container, 'anime');
+            await renderCarouselItems(list, container, 'anime'); // ← Añadir await
             initAutoScroll('#anime-carousel');
         } else {
-            showFallbackAnime(container);
+            await showFallbackAnime(container); // ← Añadir await
         }
     } catch (err) {
         console.error('Error loading anime:', err);
-        showFallbackAnime(container);
+        await showFallbackAnime(container); // ← Añadir await
     }
 }
 
@@ -252,18 +200,18 @@ async function loadTrendingManga() {
         container.innerHTML = '<div class="loading">Cargando mangas...</div>';
         const list = await getTrendingManga(10);
         if (list && list.length) {
-            renderCarouselItems(list, container, 'manga');
+            await renderCarouselItems(list, container, 'manga'); // ← Añadir await
             initAutoScroll('#manga-carousel');
         } else {
-            showFallbackManga(container);
+            await showFallbackManga(container); // ← Añadir await
         }
     } catch (err) {
         console.error('Error loading manga:', err);
-        showFallbackManga(container);
+        await showFallbackManga(container); // ← Añadir await
     }
 }
 
-function showFallbackAnime(container) {
+async function showFallbackAnime(container) {
     const fallback = [
         { id: 1, title: "Cyber Guardians", score: "9.1", imageUrl: "/img/placeholder-anime.jpg", year: "2023" },
         { id: 2, title: "Samurai Requiem", score: "8.8", imageUrl: "/img/placeholder-anime.jpg", year: "2024" },
@@ -271,11 +219,12 @@ function showFallbackAnime(container) {
         { id: 4, title: "Dragon Lore", score: "9.0", imageUrl: "/img/placeholder-anime.jpg", year: "2022" },
         { id: 5, title: "Sunny Days", score: "8.2", imageUrl: "/img/placeholder-anime.jpg", year: "2023" }
     ];
-    renderCarouselItems(fallback, container, 'anime');
+    await renderCarouselItems(fallback, container, 'anime'); // ← Añadir await
     initAutoScroll('#anime-carousel');
 }
 
-function showFallbackManga(container) {
+
+async function showFallbackManga(container) {
     const fallback = [
         { id: 1, title: "Shadow Ink", score: "9.3", imageUrl: "/img/placeholder-manga.jpg", year: "2021" },
         { id: 2, title: "Hearts in Pages", score: "8.7", imageUrl: "/img/placeholder-manga.jpg", year: "2020" },
@@ -283,7 +232,7 @@ function showFallbackManga(container) {
         { id: 4, title: "Noir Casebook", score: "8.9", imageUrl: "/img/placeholder-manga.jpg", year: "2019" },
         { id: 5, title: "Court Legend", score: "8.4", imageUrl: "/img/placeholder-manga.jpg", year: "2023" }
     ];
-    renderCarouselItems(fallback, container, 'manga');
+    await renderCarouselItems(fallback, container, 'manga'); // ← Añadir await
     initAutoScroll('#manga-carousel');
 }
 

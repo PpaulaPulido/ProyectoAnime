@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Favoritos - MangaVerse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" th:href="@{/styles/global.css}" />
+    <link rel="stylesheet" th:href="@{/styles/favorites.css}" />
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo" role="banner">
+                <h1>MangaVerse</h1>
+            </div>
+            <nav class="nav-menu" role="navigation">
+                <ul>
+                    <li><a href="/user/dashboard" class="active"><i class="fas fa-home"></i><span>Inicio</span></a></li>
+                    <li><a href="#"><i class="fas fa-tv"></i><span>Animes</span></a></li>
+                    <li><a href="#"><i class="fas fa-book"></i><span>Mangas</span></a></li>
+                    <li><a href="/user/favorites"><i class="fas fa-heart"></i><span>Favoritos</span></a></li>
+                </ul>
+
+                <div class="account-section">
+                    <h3>Cuenta</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-user"></i><span>Perfil</span></a></li>
+                        <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span>Salir</span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <section class="welcome-section" id="welcome-section" aria-labelledby="welcome-title">
+                <div class="welcome-content">
+                    <div class="user-avatar">
+                        <img th:src="@{/img/avatar-placeholder.png}" alt="Avatar">
+                    </div>
+                    <div class="welcome-text">
+                        <h1 id="welcome-title">¡Hola, <span id="username" th:text="${username}">Usuario</span>!</h1>
+                        <p>Explora el mejor contenido de anime y manga</p>
+                        <div class="cta-buttons">
+                            <a href="#" class="btn btn-primary">Explorar Animes</a>
+                            <a href="#" class="btn btn-secondary">Explorar Mangas</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container">
+                <div class="favorites-header">
+                    <h1><i class="fas fa-heart"></i> Mis Favoritos</h1>
+                    <p class="text-muted" th:text="'Total: ' + ${totalFavorites} + ' items'">Total: 0 items</p>
+                </div>
+
+                <div th:if="${favorites.empty}" class="empty-state">
+                    <i class="fas fa-heart-broken"></i>
+                    <h3>No tienes favoritos aún</h3>
+                    <p>Agrega algunos animes o mangas a tus favoritos para verlos aquí.</p>
+                    <a href="/user/dashboard" class="btn btn-primary">Explorar Contenido</a>
+                </div>
+
+                <div th:unless="${favorites.empty}" class="favorites-grid">
+                    <div th:each="fav : ${favorites}" class="favorite-item">
+                        <div class="favorite-image">
+                            <img th:src="${fav.imageUrl}" th:alt="${fav.title}"
+                                onerror="this.src='/img/placeholder-${fav.contentType}.jpg'">
+                            <div class="favorite-overlay">
+                                <button class="btn-remove-favorite" th:data-content-id="${fav.contentId}"
+                                    th:data-content-type="${fav.contentType}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="favorite-info">
+                            <h5 th:text="${fav.title}">Título</h5>
+                            <div class="favorite-meta">
+                                <span class="badge" th:text="${fav.contentType}">tipo</span>
+                                <span th:if="${fav.score > 0}" class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <span th:text="${fav.score}">0.0</span>
+                                </span>
+                                <span th:if="${fav.year > 0}" th:text="${fav.year}">2023</span>
+                            </div>
+                            <!-- <button class="btn-view-details" th:data-content-id="${fav.contentId}"
+                                th:data-content-type="${fav.contentType}">
+                                Ver Detalles
+                            </button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" th:src="@{/js/favorites.js}"></script>
+</body>
+
+</html>

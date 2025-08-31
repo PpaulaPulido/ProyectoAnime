@@ -193,3 +193,57 @@ export function setupAnimations() {
     document.querySelectorAll('.sobre-img-wrapper').forEach(n => io.observe(n));
 }
 
+
+//Verificar estado de login
+ export function checkLoginStatus() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const loginSuccess = urlParams.get('loginSuccess');
+    const logoutSuccess = urlParams.get('logout');
+
+    if (loginSuccess === 'true') {
+        showAlert({
+            icon: 'success',
+            title: '¡Sesión Iniciada!',
+            html: 'Has iniciado sesión correctamente. ¡Bienvenido de nuevo!',
+            draggable: true
+        }).then(() => {
+            // Limpiar el parámetro de la URL sin recargar
+            const cleanUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, cleanUrl);
+        });
+    }
+
+    if (logoutSuccess === 'true') {
+        showAlert({
+            icon: 'info',
+            title: 'Sesión Cerrada',
+            html: 'Has cerrado sesión correctamente. ¡Hasta pronto!',
+            draggable: true
+        }).then(() => {
+            // Limpiar el parámetro de la URL
+            const cleanUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, cleanUrl);
+        });
+    }
+
+    // Configurar logout para el enlace (no botón)
+    const logoutLink = document.getElementById('logoutBtn');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevenir la navegación normal
+
+            showAlert({
+                icon: 'question',
+                title: 'Cerrar sesión',
+                html: '¿Estás seguro de que quieres cerrar sesión?',
+                draggable: true,
+                confirmButtonText: 'Sí, cerrar sesión'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirigir al logout de Spring Security
+                    window.location.href = '/auth/logout';
+                }
+            });
+        });
+    }
+}
