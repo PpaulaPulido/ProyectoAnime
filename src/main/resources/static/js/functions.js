@@ -1,3 +1,44 @@
+
+// swalHelper para mostrar alertas personalizadas
+export function showAlert({ icon = 'info', title = '', html = '', draggable = false, confirmButtonText = 'Aceptar' }) {
+    let confirmButtonClass = 'btn-orange';
+    let popupClass = 'border-orange';
+    let iconClass = 'icon-swal-orange';
+
+    if (icon === 'success') {
+        confirmButtonClass = 'btn-green';
+        popupClass = 'border-green';
+        iconClass = 'icon-swal-green';
+    } else if (icon === 'error' || icon === 'warning') {
+        confirmButtonClass = 'btn-red';
+        popupClass = 'border-red';
+        iconClass = 'icon-swal';
+    } else if (icon === 'question') {
+        confirmButtonClass = 'btn-orange';
+        popupClass = 'border-orange';
+        iconClass = 'icon-swal-orange';
+    }
+
+    return Swal.fire({
+        icon,
+        title: `<span class="title-swal">${title}</span>`,
+        html: `<div class="div-swal">${html}</div>`,
+        showConfirmButton: true,
+        confirmButtonText: confirmButtonText,
+        customClass: {
+            confirmButton: confirmButtonClass,
+            popup: popupClass,
+            title: 'title-swal',
+            icon: iconClass,
+            htmlContainer: 'div-swal'
+        },
+        buttonsStyling: false,
+        background: 'var(--cr-bg)',
+        color: 'var(--cr-text-primary)',
+        draggable
+    });
+}
+
 // crear animaciones que se activan al hacer scroll
 export function initScrollAnimations(selectors = [], options = {}) {
     const config = { threshold: 0.2, rootMargin: "0px 0px -50px 0px", ...options };

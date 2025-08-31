@@ -3,7 +3,7 @@ import {
     getTopMangas,
     getLatestMangas,
     getTopAnime
-} from './jikanApi.js';
+} from './datosApiJikan.js';
 
 import {
     escapeHtml,
