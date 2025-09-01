@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MangaVerse - Catálogo Anime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" th:href="@{/styles/global.css}" />
+    <link rel="stylesheet" th:href="@{/styles/catalog.css}" />
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo" role="banner">
+                <h1>MangaVerse</h1>
+            </div>
+            <nav class="nav-menu" role="navigation">
+                <ul>
+                    <li><a href="/user/dashboard"><i class="fas fa-home"></i><span>Inicio</span></a></li>
+                    <li><a href="/user/catalogAnime" class="active"><i class="fas fa-tv"></i><span>Animes</span></a>
+                    </li>
+                    <li><a href="/user/catalogManga"><i class="fas fa-book"></i><span>Mangas</span></a></li>
+                    <li><a href="/user/favorites"><i class="fas fa-heart"></i><span>Favoritos</span></a></li>
+                </ul>
+
+                <div class="account-section">
+                    <h3>Cuenta</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-user"></i><span>Perfil</span></a></li>
+                        <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span>Salir</span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="catalog-header">
+                <h1>Catálogo de Anime</h1>
+                <p>Explora nuestra amplia colección de animes</p>
+            </div>
+
+            <!-- Barra de búsqueda y filtros -->
+            <div class="catalog-controls">
+                <div class="filter-section">
+                    <select id="genreFilter">
+                        <option value="">Todos los géneros</option>
+                    </select>
+
+                    <select id="typeFilter">
+                        <option value="">Todos los tipos</option>
+                        <option value="tv">TV</option>
+                        <option value="movie">Película</option>
+                        <option value="ova">OVA</option>
+                        <option value="special">Especial</option>
+                    </select>
+
+                    <select id="statusFilter">
+                        <option value="">Todos los estados</option>
+                        <option value="airing">En emisión</option>
+                        <option value="complete">Completado</option>
+                        <option value="upcoming">Próximamente</option>
+                    </select>
+
+                    <button id="applyFilters" class="btn-primary">Aplicar Filtros</button>
+                    <button id="clearFilters" class="btn-secondary">Limpiar</button>
+                </div>
+            </div>
+
+            <!-- Secciones del catálogo -->
+            <div class="catalog-sections">
+                <section class="catalog-section">
+                    <h2><i class="fas fa-fire"></i> Trending Now</h2>
+                    <div class="anime-grid" id="trendingGrid">
+                        <div class="loading">Cargando animes trending...</div>
+                    </div>
+                </section>
+
+                <!-- Popular Section -->
+                <section class="catalog-section">
+                    <h2><i class="fas fa-trophy"></i> Más Populares</h2>
+                    <div class="anime-grid" id="popularGrid">
+                        <div class="loading">Cargando animes populares...</div>
+                    </div>
+                </section>
+
+                <section class="catalog-section">
+                    <h2><i class="fas fa-calendar-alt"></i> Próximos Estrenos</h2>
+                    <div class="anime-grid" id="upcomingGrid">
+                        <div class="loading">Cargando próximos estrenos...</div>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="dashboard-footer">
+                <p>© 2025 MangaVerse</p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" th:src="@{/js/catalogAnime.js}"></script>
+</body>
+
+</html>

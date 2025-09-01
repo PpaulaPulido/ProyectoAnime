@@ -22,20 +22,35 @@
     font-family: 'Poppins', sans-serif;
 }
 
-.main-content {
-    margin-left: var(--sidebar-width);
-    padding: 2rem;
+/* Container */
+.dashboard-container {
+    display: flex;
     min-height: 100vh;
     background-image:
         linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 35%, rgba(0, 0, 0, 0.95) 100%),
-        url('https://uvn-brightspot.s3.amazonaws.com/assets/vixes/b/bleach_manga.jpg');
+        url('/img/backgroundMangaVerse.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    backdrop-filter: blur(8px);
 }
+
+/* ==========================
+   MAIN CONTENT
+========================== */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    margin-left: var(--sidebar-width);
+    color: var(--cr-text-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    overflow-x: hidden;
+}
+
+/* ======
 
 /* Encabezado de Favoritos */
 .favorites-header {

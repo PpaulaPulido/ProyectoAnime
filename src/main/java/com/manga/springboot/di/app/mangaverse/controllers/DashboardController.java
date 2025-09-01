@@ -37,4 +37,32 @@ public class DashboardController {
     public String showHome() {
         return "redirect:/dashboard";
     }
+
+    @GetMapping("/catalogAnime")
+    public String catalogAnime(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            String email = authentication.getName();
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            model.addAttribute("username", user.getUsername());
+        } else {
+            model.addAttribute("username", "Usuario");
+        }
+
+        return "catalogAnime";
+    }
+
+    @GetMapping("/catalogManga")
+    public String catalogManga(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            String email = authentication.getName();
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            model.addAttribute("username", user.getUsername());
+        } else {
+            model.addAttribute("username", "Usuario");
+        }
+
+        return "catalogManga";
+    }
 }

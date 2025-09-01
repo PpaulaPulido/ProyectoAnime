@@ -21,8 +21,8 @@
             <nav class="nav-menu" role="navigation">
                 <ul>
                     <li><a href="/user/dashboard" class="active"><i class="fas fa-home"></i><span>Inicio</span></a></li>
-                    <li><a href="#"><i class="fas fa-tv"></i><span>Animes</span></a></li>
-                    <li><a href="#"><i class="fas fa-book"></i><span>Mangas</span></a></li>
+                    <li><a href="/user/catalogAnime"><i class="fas fa-tv"></i><span>Animes</span></a></li>
+                    <li><a href="/user/catalogManga"><i class="fas fa-book"></i><span>Mangas</span></a></li>
                     <li><a href="/user/favorites"><i class="fas fa-heart"></i><span>Favoritos</span></a></li>
                 </ul>
 
@@ -48,8 +48,8 @@
                         <h1 id="welcome-title">¡Hola, <span id="username" th:text="${username}">Usuario</span>!</h1>
                         <p>Explora el mejor contenido de anime y manga</p>
                         <div class="cta-buttons">
-                            <a href="#" class="btn btn-primary">Explorar Animes</a>
-                            <a href="#" class="btn btn-secondary">Explorar Mangas</a>
+                            <a href="/user/catalogAnime" class="btn btn-primary">Explorar Animes</a>
+                            <a href="/user/catalogManga" class="btn btn-secondary">Explorar Mangas</a>
                         </div>
                     </div>
                 </div>

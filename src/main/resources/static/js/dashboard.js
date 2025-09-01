@@ -1,5 +1,5 @@
 // dashboard.js
-import { getTrendingAnime, getTrendingManga } from './datosApiJikan.js';
+import { getDashboardAnime, getDashboardManga } from './datosApiJikan.js';
 import {
     initScrollAnimations,
     makeScrollable,
@@ -181,7 +181,7 @@ async function loadTrendingAnime() {
     const container = document.querySelector('#anime-carousel .carousel-inner');
     try {
         container.innerHTML = '<div class="loading">Cargando animes...</div>';
-        const list = await getTrendingAnime(10);
+        const list = await getDashboardAnime(10);
         if (list && list.length) {
             await renderCarouselItems(list, container, 'anime'); // ← Añadir await
             initAutoScroll('#anime-carousel');
@@ -198,7 +198,7 @@ async function loadTrendingManga() {
     const container = document.querySelector('#manga-carousel .carousel-inner');
     try {
         container.innerHTML = '<div class="loading">Cargando mangas...</div>';
-        const list = await getTrendingManga(10);
+        const list = await getDashboardManga(10);
         if (list && list.length) {
             await renderCarouselItems(list, container, 'manga'); // ← Añadir await
             initAutoScroll('#manga-carousel');

@@ -172,6 +172,24 @@ export async function createMediaCard(media, type) {
     const img = media.imageUrl || media.images?.jpg?.image_url || media.image_url || `/img/placeholder-${type}.jpg`;
     const score = media.score ?? media.rating ?? 'N/A';
     const year = formatDate(media);
+    
+    // Obtener géneros (manejar diferentes formatos de la API)
+    let genres = '';
+    if (media.genres && media.genres.length > 0) {
+        // Si los géneros son objetos con propiedad 'name'
+        if (typeof media.genres[0] === 'object' && media.genres[0].name) {
+            genres = media.genres.map(genre => genre.name).slice(0, 2).join(', ');
+        } 
+        // Si los géneros son strings simples
+        else if (typeof media.genres[0] === 'string') {
+            genres = media.genres.slice(0, 2).join(', ');
+        }
+    }
+    
+    // Si hay muchos géneros, agregar puntos suspensivos
+    if (genres.length > 20) {
+        genres = genres.substring(0, 20) + '...';
+    }
 
     card.innerHTML = `
         <div class="card-image">
@@ -184,6 +202,7 @@ export async function createMediaCard(media, type) {
                     <span>${score}</span>
                 </div>
                 ${year ? `<div class="year">${year}</div>` : ''}
+                ${genres ? `<div class="genres">${genres}</div>` : ''}
                 <button class="btn-favorite" data-id="${card.dataset.id}" data-type="${type}" 
                         aria-label="Añadir a favoritos">
                     <i class="far fa-heart" aria-hidden="true"></i>

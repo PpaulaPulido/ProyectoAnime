@@ -49,9 +49,9 @@ export function safeImage(obj, type = 'anime') {
 }
 
 // ===== INFORMACIÓN BÁSICA (Para el Dashboard) =====
-export async function getTrendingAnime(limit = 10) {
+export async function getTrendingAnime(limit = 10, filter = 'airing') {
     try {
-        const response = await fetchWithRetry(`${API_BASE}/top/anime?limit=${limit}`);
+        const response = await fetchWithRetry(`${API_BASE}/top/anime?limit=${limit}&filter=${filter}`);
         const animeList = response.data || [];
 
         return animeList.map(anime => ({
@@ -71,11 +71,90 @@ export async function getTrendingAnime(limit = 10) {
             // Estado
             status: anime.status,
             episodes: anime.episodes,
-            year: anime.year || (anime.aired?.prop?.from?.year || 'N/A')
+            year: anime.year || (anime.aired?.prop?.from?.year || 'N/A'),
+
+            // Información adicional para catálogo
+            synopsis: anime.synopsis,
+            genres: anime.genres?.map(g => g.name) || [],
+            rating: anime.rating,
+            studios: anime.studios?.map(s => s.name) || []
         }));
     } catch (error) {
         console.error('Error getting trending anime:', error);
         return getFallbackAnime();
+    }
+}
+
+// ===== FUNCIONES ESPECÍFICAS PARA CATÁLOGO =====
+
+// Para el dashboard (10 items)
+export async function getDashboardAnime() {
+    return await getTrendingAnime(10, 'airing');
+}
+
+// Para el catálogo (20 items)
+export async function getCatalogAnime() {
+    return await getTrendingAnime(20, 'bypopularity');
+}
+
+// Para diferentes secciones del catálogo
+export async function getCatalogSections() {
+    const [trending, popular, upcoming, favorites] = await Promise.all([
+        getTrendingAnime(20, 'airing'),           // En emisión
+        getTrendingAnime(20, 'bypopularity'),     // Populares
+        getTrendingAnime(12, 'upcoming'),         // Próximos
+        getTrendingAnime(15, 'favorite')          // Favoritos
+    ]);
+
+    return { trending, popular, upcoming, favorites };
+}
+
+// Por géneros para el catálogo
+export async function getAnimeByGenre(genreId, limit = 150) {
+    try {
+        const response = await fetchWithRetry(`${API_BASE}/anime?genres=${genreId}&limit=${limit}&order_by=popularity`);
+        const animeList = response.data || [];
+
+        return animeList.map(anime => ({
+            id: anime.mal_id,
+            title: anime.title,
+            imageUrl: safeImage(anime, 'anime'),
+            score: anime.score,
+            type: anime.type,
+            episodes: anime.episodes,
+            status: anime.status,
+            year: anime.year || (anime.aired?.prop?.from?.year || 'N/A'),
+            genres: anime.genres?.map(g => g.name) || [],
+            synopsis: anime.synopsis
+        }));
+    } catch (error) {
+        console.error('Error getting anime by genre:', error);
+        return [];
+    }
+}
+
+// Géneros populares predefinidos
+export const POPULAR_GENRES = [
+    { id: 1, name: 'Acción', slug: 'action' },
+    { id: 2, name: 'Aventura', slug: 'adventure' },
+    { id: 4, name: 'Comedia', slug: 'comedy' },
+    { id: 8, name: 'Drama', slug: 'drama' },
+    { id: 10, name: 'Fantasía', slug: 'fantasy' },
+    { id: 22, name: 'Romance', slug: 'romance' },
+    { id: 27, name: 'Shounen', slug: 'shounen' },
+    { id: 23, name: 'Escolar', slug: 'school' }
+];
+
+
+// Obtener anime por múltiples géneros
+export async function getAnimeByMultipleGenres(genreIds, limit = 15) {
+    try {
+        const genreString = genreIds.join(',');
+        const response = await fetchWithRetry(`${API_BASE}/anime?genres=${genreString}&limit=${limit}&order_by=popularity`);
+        return response.data || [];
+    } catch (error) {
+        console.error('Error getting anime by multiple genres:', error);
+        return [];
     }
 }
 
@@ -102,11 +181,163 @@ export async function getTrendingManga(limit = 5) {
             status: manga.status,
             chapters: manga.chapters,
             volumes: manga.volumes,
-            year: manga.year || (manga.published?.prop?.from?.year || 'N/A')
+            year: manga.year || (manga.published?.prop?.from?.year || 'N/A'),
+
+            // Información adicional para catálogo (¡FALTABAN ESTOS!)
+            synopsis: manga.synopsis,
+            genres: manga.genres?.map(g => g.name) || [],
+            authors: manga.authors?.map(a => a.name) || []
         }));
     } catch (error) {
         console.error('Error getting trending manga:', error);
         return getFallbackManga();
+    }
+}
+
+// ===== FUNCIONES ESPECÍFICAS PARA MANGA =====
+export async function getDashboardManga() {
+    return await getTrendingManga(10);
+}
+
+// Para el catálogo (20 items)
+export async function getCatalogManga() {
+    try {
+        const response = await fetchWithRetry(`${API_BASE}/top/manga?limit=20`);
+        const mangaList = response.data || [];
+
+        return mangaList.map(manga => ({
+            id: manga.mal_id,
+            title: manga.title,
+            imageUrl: safeImage(manga, 'manga'),
+            score: manga.score,
+            type: manga.type,
+            chapters: manga.chapters,
+            status: manga.status,
+            year: manga.year || (manga.published?.prop?.from?.year || 'N/A'),
+            genres: manga.genres?.map(g => g.name) || [],
+            synopsis: manga.synopsis
+        }));
+    } catch (error) {
+        console.error('Error getting catalog manga:', error);
+        return getFallbackManga();
+    }
+}
+
+// Para diferentes secciones del catálogo de manga
+export async function getCatalogMangaSections() {
+    const [trending, popular, newReleases, favorites] = await Promise.all([
+        getTrendingManga(20),           // Tendencia
+        getTopMangas(20),               // Populares
+        getLatestMangas(12),            // Nuevos lanzamientos
+        getTrendingManga(15)            // Favoritos (usamos trending como proxy)
+    ]);
+
+    return { trending, popular, newReleases, favorites };
+}
+
+// Por géneros para el catálogo de manga
+export async function getMangaByGenre(genreId, limit = 150) {
+    try {
+        const response = await fetchWithRetry(`${API_BASE}/manga?genres=${genreId}&limit=${limit}&order_by=popularity`);
+        const mangaList = response.data || [];
+
+        return mangaList.map(manga => ({
+            id: manga.mal_id,
+            title: manga.title,
+            imageUrl: safeImage(manga, 'manga'),
+            score: manga.score,
+            type: manga.type,
+            chapters: manga.chapters,
+            status: manga.status,
+            year: manga.year || (manga.published?.prop?.from?.year || 'N/A'),
+            genres: manga.genres?.map(g => g.name) || [],
+            synopsis: manga.synopsis
+        }));
+    } catch (error) {
+        console.error('Error getting manga by genre:', error);
+        return [];
+    }
+}
+
+// Géneros populares predefinidos para manga
+export const POPULAR_MANGA_GENRES = [
+    { id: 1, name: 'Acción', slug: 'accion' },
+    { id: 2, name: 'Aventura', slug: 'aventura' },
+    { id: 4, name: 'Comedia', slug: 'comedia' },
+    { id: 8, name: 'Drama', slug: 'drama' },
+    { id: 10, name: 'Fantasía', slug: 'fantasia' },
+    { id: 22, name: 'Romance', slug: 'romance' },
+    { id: 27, name: 'Shounen', slug: 'shounen' },
+    { id: 23, name: 'Escolar', slug: 'escolar' },
+    { id: 37, name: 'Sobrenatural', slug: 'sobrenatural' },
+    { id: 7, name: 'Misterio', slug: 'misterio' },
+    { id: 36, name: 'Slice of Life', slug: 'slice-of-life' },
+    { id: 9, name: 'Ecchi', slug: 'ecchi' },
+    { id: 33, name: 'Harem', slug: 'harem' },
+    { id: 24, name: 'Ciencia Ficción', slug: 'ciencia-ficcion' },
+    { id: 30, name: 'Deportes', slug: 'deportes' },
+    { id: 14, name: 'Terror', slug: 'terror' },
+    { id: 42, name: 'Seinen', slug: 'seinen' },
+    { id: 25, name: 'Shoujo', slug: 'shoujo' },
+    { id: 31, name: 'Superpoderes', slug: 'superpoderes' },
+    { id: 17, name: 'Mecha', slug: 'mecha' }
+];
+
+// Obtener manga por múltiples géneros
+export async function getMangaByMultipleGenres(genreIds, limit = 15) {
+    try {
+        const genreString = genreIds.join(',');
+        const response = await fetchWithRetry(`${API_BASE}/manga?genres=${genreString}&limit=${limit}&order_by=popularity`);
+        return response.data || [];
+    } catch (error) {
+        console.error('Error getting manga by multiple genres:', error);
+        return [];
+    }
+}
+
+// Obtener manga por tipo
+export async function getMangaByType(type, limit = 15) {
+    try {
+        const response = await fetchWithRetry(`${API_BASE}/manga?type=${type}&limit=${limit}&order_by=popularity`);
+        const mangaList = response.data || [];
+
+        return mangaList.map(manga => ({
+            id: manga.mal_id,
+            title: manga.title,
+            imageUrl: safeImage(manga, 'manga'),
+            score: manga.score,
+            type: manga.type,
+            chapters: manga.chapters,
+            status: manga.status,
+            year: manga.year || (manga.published?.prop?.from?.year || 'N/A'),
+            genres: manga.genres?.map(g => g.name) || []
+        }));
+    } catch (error) {
+        console.error(`Error getting manga by type ${type}:`, error);
+        return [];
+    }
+}
+
+// Obtener manga por estado
+export async function getMangaByStatus(status, limit = 15) {
+    try {
+        const response = await fetchWithRetry(`${API_BASE}/manga?status=${status}&limit=${limit}&order_by=popularity`);
+        const mangaList = response.data || [];
+
+        return mangaList.map(manga => ({
+            id: manga.mal_id,
+            title: manga.title,
+            imageUrl: safeImage(manga, 'manga'),
+            score: manga.score,
+            type: manga.type,
+            chapters: manga.chapters,
+            status: manga.status,
+            year: manga.year || (manga.published?.prop?.from?.year || 'N/A'),
+            genres: manga.genres?.map(g => g.name) || []
+        }));
+    } catch (error) {
+        console.error(`Error getting manga by status ${status}:`, error);
+        return [];
     }
 }
 
@@ -436,6 +667,17 @@ export default {
     // Información básica (Dashboard)
     getTrendingAnime,
     getTrendingManga,
+    getCatalogAnime,
+    getCatalogSections,
+    getAnimeByGenre,
+    getAnimeByMultipleGenres,
+    getCatalogManga,
+    getCatalogMangaSections,
+    getMangaByGenre,
+    getMangaByMultipleGenres,
+    getMangaByType,
+    getMangaByStatus,
+
 
     // Detalles completos (Páginas de detalle)
     getAnimeDetails,
@@ -464,4 +706,5 @@ export default {
     getTopMangas,
     getLatestMangas,
     getTopAnime
+
 };

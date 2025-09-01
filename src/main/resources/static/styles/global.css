@@ -611,3 +611,153 @@ body {
   outline: 2px solid rgba(255, 255, 255, 0.3);
   outline-offset: 2px;
 }
+
+
+/* ==========================
+   TARJETAS
+========================== */
+.card {
+  min-width: 200px;
+  max-width: 220px;
+  background: #111;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Imagen principal */
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #222;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+/* Overlay con info */
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.4));
+  color: var(--cr-text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-overlay h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+  color: var(--cr-text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Rating */
+.card-overlay .rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: var(--primary-light);
+}
+
+.card-overlay .rating i {
+  color: var(--primary);
+  font-size: 0.9rem;
+}
+
+.card-overlay .year {
+  font-size: 0.8rem;
+  color: var(--cr-text-muted);
+}
+
+.btn-favorite {
+  position: absolute;
+  bottom: 270px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.65);
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--cr-text-primary);
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: background var(--transition-speed), transform 0.3s;
+  z-index: 5;
+}
+
+.btn-favorite:hover {
+  background: var(--primary);
+  transform: scale(1.15);
+}
+
+.btn-favorite.favorited {
+  background: var(--primary);
+}
+
+.btn-favorite.favorited i {
+  color: var(--cr-text-primary);
+}
+
+.card-overlay .genres {
+  font-size: 0.75rem;
+  color: #ddd;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* Ajustar el espaciado para acomodar el nuevo elemento */
+.card-overlay {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.card-overlay h4 {
+  margin-bottom: 2px;
+}
+
+.card-overlay .rating {
+  margin: 2px 0;
+}
+
+.card-overlay .year {
+  margin: 2px 0;
+}

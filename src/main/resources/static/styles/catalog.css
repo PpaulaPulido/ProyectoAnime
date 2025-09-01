@@ -1,0 +1,133 @@
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background-image:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.92) 35%, rgba(0, 0, 0, 0.98) 100%),
+    url('https://wallpapers.com/images/featured/anime-en-blanco-y-negro-kvprlq5w5vvcar6g.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+  margin-left: var(--sidebar-width);
+  color: var(--cr-text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  overflow-x: hidden;
+}
+
+/* Header del catálogo */
+.catalog-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.catalog-header h1 {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.catalog-header p {
+  color: var(--cr-text-muted);
+  font-size: 1rem;
+}
+
+/* Barra de búsqueda y filtros */
+.catalog-controls {
+  padding: 15px 20px;
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.filter-section select {
+  background: #111;
+  color: var(--cr-text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--card-radius);
+  padding: 10px 15px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border var(--transition-speed);
+}
+
+.filter-section select:focus {
+  border-color: var(--primary);
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 10px 16px;
+  border-radius: var(--card-radius);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background var(--transition-speed), transform 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: var(--primary-light);
+  transform: scale(1.05);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn-secondary:hover {
+  background: rgba(244, 117, 33, 0.1);
+}
+
+/* Secciones del catálogo */
+.catalog-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.catalog-section h2 {
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.catalog-section h2 i {
+  color: var(--primary-light);
+}
+
+/* Grid de animes */
+.anime-grid, .manga-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 50px;
+}
+
+.anime-grid .loading, .manga-grid .loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--cr-text-muted);
+}
+
